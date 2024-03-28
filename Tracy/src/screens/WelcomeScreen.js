@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -6,8 +7,13 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const WelcomeScreen = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView
       style={{
@@ -17,6 +23,7 @@ const WelcomeScreen = () => {
         alignItems: "center",
       }}
     >
+      {/* the title Tracy */}
       <View
         style={{
           marginBottom: 50,
@@ -28,7 +35,7 @@ const WelcomeScreen = () => {
           style={{
             fontWeight: "bold",
             color: "#4A5568",
-            fontSize: 36,
+            fontSize: hp(8),
           }}
         >
           TR∀CY
@@ -46,26 +53,31 @@ const WelcomeScreen = () => {
           The future is here, powered by AI.
         </Text>
       </View>
+
+      {/* the eye icon */}
       <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
           padding: 10,
-          marginBottom: 70,
+          marginBottom: hp(18),
         }}
       >
         <Image
           source={require("../../assets/images/Blue-eye.jpg")}
-          style={{ width: 300, height: 300, borderRadius: 200 }}
+          style={{ width: wp(75), height: wp(75), borderRadius: 200 }}
         />
       </View>
 
+      {/* button for Get Started */}
       <TouchableOpacity
+        onPress={() => navigation.navigate("Home")}
         style={{
           backgroundColor: "#047857",
           padding: 10,
           borderRadius: 10,
-          marginTop: 15,
+          // marginTop: 15,
+          // marginTop: hp(5),
           // flex: 1,
           // flexDirection: "row",
           width: "85%",
@@ -78,7 +90,7 @@ const WelcomeScreen = () => {
             textAlign: "center",
             fontWeight: "bold",
             color: "white",
-            fontSize: 20,
+            fontSize: hp(3),
           }}
         >
           Get Started
