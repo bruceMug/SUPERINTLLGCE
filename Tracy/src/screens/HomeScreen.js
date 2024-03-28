@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, Image, SafeAreaView } from "react-native";
+import { View, Text, Image, SafeAreaView, ScrollView } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import Features from "../components/Features";
+import { dummyMessages } from "../constants";
 
 const HomeScreen = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([dummyMessages]);
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <SafeAreaView style={{ flex: 1, marginTop: 15 }}>
@@ -20,8 +21,40 @@ const HomeScreen = () => {
 
         {/* features || text message history */}
         {messages.length > 0 ? (
-          <View>
-            <Text>Empty</Text>
+          <View style={{ flex: 1, margin: 20 }}>
+            <Text
+              style={{
+                fontSize: wp(5),
+                fontWeight: "bold",
+                marginLeft: 2,
+                color: "gray",
+              }}
+            >
+              Assistant
+            </Text>
+            <View
+              style={{
+                height: hp(58),
+                // borderWidth: 1,
+                borderRadius: 18,
+                padding: 4,
+                backgroundColor: "#DEDEDE",
+              }}
+            >
+              <ScrollView
+                bounces={false}
+                style={{ margin: 10 }}
+                showsVerticalScrollIndicator={false}
+              >
+                {messages.map((message, index) => {
+                  return (
+                    <View>
+                      <Text>{message.content}</Text>
+                    </View>
+                  );
+                })}
+              </ScrollView>
+            </View>
           </View>
         ) : (
           <Features />
