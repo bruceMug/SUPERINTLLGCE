@@ -4,9 +4,10 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import Features from "../components/Features";
 
 const HomeScreen = () => {
-  const [messages, setMessages] = useState([2]);
+  const [messages, setMessages] = useState([]);
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <SafeAreaView style={{ flex: 1, marginTop: 15 }}>
