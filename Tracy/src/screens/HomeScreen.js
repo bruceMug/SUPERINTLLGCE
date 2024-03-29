@@ -19,6 +19,25 @@ const HomeScreen = () => {
   const [recording, setRecording] = useState(true);
   const [speaking, setSpeaking] = useState(true);
 
+  const startRecording = async () => {
+    setRecording(true);
+    try {
+      await Voice.start("en-US");
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const stopRecording = async () => {
+    try {
+      await Voice.stop();
+      setRecording(false);
+      // fetch results from chatgpt
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const stopSpeaking = () => {
     setSpeaking(false);
   };
@@ -162,45 +181,24 @@ const HomeScreen = () => {
           }}
         >
           {recording ? (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  // setRecording(false);
-                }}
-              >
-                <Image
-                  source={require("../../assets/images/recordingicon.png")}
-                  style={{ width: hp(10), height: hp(10), borderRadius: 100 }}
-                />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={stopRecording}>
+              {/* recording stop button */}
+              <Image
+                source={require("../../assets/images/recordingicon.png")}
+                style={{ width: hp(10), height: hp(10), borderRadius: 100 }}
+              />
+            </TouchableOpacity>
           ) : (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  // setRecording(true);
-                }}
-              >
-                <Image
-                  source={require("../../assets/images/startrecording.gif")}
-                  style={{ width: hp(10), height: hp(10), borderRadius: 100 }}
-                />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={startRecording}>
+              {/* recording start button */}
+              <Image
+                source={require("../../assets/images/startrecording.gif")}
+                style={{ width: hp(10), height: hp(10), borderRadius: 100 }}
+              />
+            </TouchableOpacity>
           )}
 
+          {/* this is Clear button */}
           {messages.length > 0 && (
             <TouchableOpacity
               style={{
@@ -219,6 +217,7 @@ const HomeScreen = () => {
             </TouchableOpacity>
           )}
 
+          {/* stop button: toggle accordingly */}
           {speaking > 0 && (
             <TouchableOpacity
               style={{
