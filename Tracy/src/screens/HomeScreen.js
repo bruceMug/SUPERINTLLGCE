@@ -17,8 +17,8 @@ import Voice from "@wdragon/react-native-voice";
 
 const HomeScreen = () => {
   const [messages, setMessages] = useState(dummyMessages);
-  const [recording, setRecording] = useState(true);
-  const [speaking, setSpeaking] = useState(true);
+  const [recording, setRecording] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
 
   const speechStartHandler = () => {
     console.log("Speech has started");
@@ -30,6 +30,7 @@ const HomeScreen = () => {
   };
 
   const speechResultsHandler = (e) => {
+    console.log("REturn results:");
     // const { value } = e;
     console.log("Voice event", e);
     // setMessages([...messages, { role: "user", content: value[0] }]);
@@ -42,7 +43,7 @@ const HomeScreen = () => {
   const startRecording = async () => {
     setRecording(true);
     try {
-      await Voice.start("en-US"); // en-GB
+      await Voice.start("en-GB"); // en-US
     } catch (e) {
       console.error(e);
     }
@@ -64,6 +65,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     // voice handler events
+    console.log("speech handlers");
     Voice.onSpeechStart = speechStartHandler;
     Voice.onSpeechEnd = speechEndHandler;
     Voice.onSpeechResults = speechResultsHandler;
@@ -71,6 +73,7 @@ const HomeScreen = () => {
 
     return () => {
       // destroy the voice instance
+      // console.log(Voice.isAvailable());
       Voice.destroy().then(Voice.removeAllListeners);
     };
   }, []);
