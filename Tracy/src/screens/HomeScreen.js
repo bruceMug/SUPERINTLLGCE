@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,16 +13,36 @@ import {
 } from "react-native-responsive-screen";
 import Features from "../components/Features";
 import { dummyMessages } from "../constants";
+import Voice from "@wdragon/react-native-voice";
 
 const HomeScreen = () => {
   const [messages, setMessages] = useState(dummyMessages);
   const [recording, setRecording] = useState(true);
   const [speaking, setSpeaking] = useState(true);
 
+  const speechStartHandler = () => {
+    console.log("Speech has started");
+  };
+
+  const speechEndHandler = () => {
+    setRecording(false);
+    console.log("Speech has ended");
+  };
+
+  const speechResultsHandler = (e) => {
+    // const { value } = e;
+    console.log("Voice event", e);
+    // setMessages([...messages, { role: "user", content: value[0] }]);
+  };
+
+  const speechErrorHandler = (e) => {
+    console.log("Voice error", e);
+  };
+
   const startRecording = async () => {
     setRecording(true);
     try {
-      await Voice.start("en-US");
+      await Voice.start("en-US"); // en-GB
     } catch (e) {
       console.error(e);
     }
@@ -41,6 +61,19 @@ const HomeScreen = () => {
   const stopSpeaking = () => {
     setSpeaking(false);
   };
+
+  useEffect(() => {
+    // voice handler events
+    Voice.onSpeechStart = speechStartHandler;
+    Voice.onSpeechEnd = speechEndHandler;
+    Voice.onSpeechResults = speechResultsHandler;
+    Voice.onSpeechError = speechErrorHandler;
+
+    return () => {
+      // destroy the voice instance
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
